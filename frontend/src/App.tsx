@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, keyframes } from "@emotion/react";
 import axios from "axios";
+import { STRIPE_API_KEY } from "./importantData";
 import { HeaderAnimation } from "./components/HeaderAnimation";
 import { LogoDesktop } from "./components/LogoDesktop";
-import { useState } from "react";
 import { BlogPostType } from "./types/models";
-import { useEffect } from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js/pure";
+import { CheckoutForm } from "./components/CheckoutForm";
 
 const gradient = keyframes`0% {
     background-position: 0% 50%;
@@ -18,6 +20,8 @@ const gradient = keyframes`0% {
 100% {
     background-position: 0% 50%;
 }`;
+
+const stripePromise = loadStripe(STRIPE_API_KEY);
 
 function App() {
     const styles = {
@@ -60,6 +64,9 @@ function App() {
                     </div>
                 ))}
             </div>
+            <Elements stripe={stripePromise}>
+                <CheckoutForm />
+            </Elements>
 
             <div
                 css={css`
