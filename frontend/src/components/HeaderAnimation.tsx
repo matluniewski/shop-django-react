@@ -170,6 +170,7 @@ export const HeaderAnimation = (props: any) => {
             min-height: 100vh;
             top: 0;
             left: 0;
+
             pointer-events: none;
             overflow: hidden;
         `,

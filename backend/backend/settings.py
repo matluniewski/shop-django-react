@@ -40,10 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'products',
+    'payments',
 
     'rest_framework',
     'corsheaders',
     'django_summernote',
+    'django_cleanup.apps.CleanupConfig',
+    'stripe',
 ]
 
 MIDDLEWARE = [

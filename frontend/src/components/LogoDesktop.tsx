@@ -1,11 +1,16 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, keyframes } from "@emotion/react";
-import React from "react";
+import { css, jsx } from "@emotion/react";
+import React, { useState } from "react";
 
-export const Logo = () => {
+export const LogoDesktop = () => {
+    const [position, setPosition] = useState(20);
+    const moveToShop = () => {
+        setPosition(-120);
+    };
     const styles = {
         root: css`
+            display: none;
             font-family: "Zen Tokyo Zoo", cursive;
             position: absolute;
             display: flex;
@@ -13,12 +18,15 @@ export const Logo = () => {
             align-items: flex-start;
             justify-content: center;
             padding: 2%;
-            top: 10vw;
-            left: 10vw;
-            width: 40vw;
-            height: 40vw;
+            top: 50%;
+            left: ${position}%;
+
+            transition: 1500ms 200ms;
+            transform: translate(-20%, -50%);
+            min-width: 550px;
+            min-height: 550px;
             color: white;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             border: 4px white solid;
             z-index: 20;
             font-size: 50px;
@@ -41,13 +49,13 @@ export const Logo = () => {
             &:before {
                 content: "";
                 position: absolute;
-                top: 10px;
+                top: 7px;
                 left: -10px;
                 display: block;
-                border-radius: 28px;
-                background: rgba(63, 124, 25, 0.466);
-                width: 55px;
-                height: 60px;
+                border-radius: 35px;
+                background: rgba(63, 124, 25, 1);
+                width: 65px;
+                height: 70px;
                 transition: all 0.3s ease;
             }
             span {
@@ -71,7 +79,7 @@ export const Logo = () => {
             &:hover {
                 &:before {
                     width: 100%;
-                    background: rgba(63, 124, 25, 0.9);
+                    background: rgba(63, 124, 25, 1);
                 }
                 svg {
                     transform: translateX(0);
@@ -84,7 +92,7 @@ export const Logo = () => {
     };
     return (
         <div css={styles.root}>
-            <a href="#" css={styles.link}>
+            <a onClick={moveToShop} href="#" css={styles.link}>
                 <span>KWIATKI</span>
                 <svg width="13px" height="10px" viewBox="0 0 13 10">
                     <path d="M1,5 L11,5"></path>
