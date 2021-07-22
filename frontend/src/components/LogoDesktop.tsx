@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const LogoDesktop = () => {
     const [position, setPosition] = useState(20);
@@ -92,21 +93,21 @@ export const LogoDesktop = () => {
     };
     return (
         <div css={styles.root}>
-            <a onClick={moveToShop} href="#" css={styles.link}>
+            <Link onClick={moveToShop} to="/products" css={styles.link}>
                 <span>KWIATKI</span>
                 <svg width="13px" height="10px" viewBox="0 0 13 10">
                     <path d="M1,5 L11,5"></path>
                     <polyline points="8 1 12 5 8 9"></polyline>
                 </svg>
-            </a>
+            </Link>
             <div css={styles.title}>Ola Jankowska</div>
-            <a href="#" css={styles.link}>
+            <Link to="/products" css={styles.link}>
                 <span>SWIECZKI</span>
                 <svg width="13px" height="10px" viewBox="0 0 13 10">
                     <path d="M1,5 L11,5"></path>
                     <polyline points="8 1 12 5 8 9"></polyline>
                 </svg>
-            </a>
+            </Link>
         </div>
     );
 };

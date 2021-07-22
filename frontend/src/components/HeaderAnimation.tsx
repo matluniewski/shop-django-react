@@ -32,7 +32,7 @@ const BackgroundImg = styled.div`
 
 const Leaves = styled.div`
     position: relative;
-    z-index: 2;
+    z-index: 1;
 
     div {
         position: absolute;
@@ -165,11 +165,13 @@ const LeavesBack = styled(Leaves)`
 export const HeaderAnimation = (props: any) => {
     const styles = {
         root: css`
-            position: relative;
+            position: absolute;
+            overflow: auto;
             width: 100%;
             min-height: 100vh;
             top: 0;
             left: 0;
+            margin-top: auto;
 
             pointer-events: none;
             overflow: hidden;

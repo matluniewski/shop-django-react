@@ -11,7 +11,9 @@ export interface BlogPostType {
 
 export interface ProductType {
     name: string;
-    description: string;
+    slug: string;
     price: number;
     category: string;
+    description: string;
+    thumbnail: string;
 }

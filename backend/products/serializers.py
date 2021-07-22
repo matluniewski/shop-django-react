@@ -6,9 +6,3 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
         exclude = []
-
-class BlogPostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.BlogPost
-        exclude =[]
-        # lookup_field = 'slug'
