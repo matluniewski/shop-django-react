@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { createContext } from "react";
 import { FC } from "react";
+import { ProductType } from "../../types/models";
 
 type BasketItemType = {
-    product: number;
+    product: ProductType | undefined;
     id: number;
     quantity: number;
 };
@@ -20,13 +21,29 @@ export const BasketContext = createContext<BasketContextProps>(
     null as unknown as BasketContextProps
 );
 
-export const Basket: FC = (props) => {
+export const BasketContextProvider: FC = (props) => {
     const [basket, setBasket] = useState<BasketItemType[]>([]);
 
     const fetchData = async () => {
-        axios.get("http://localhost:8000/cart/cart_item").then((res) => {
-            setBasket(res.data);
-        });
+        const resCart = await axios.get("http://localhost:8000/cart/cart_item");
+        const resProducts = await axios.get(
+            "http://localhost:8000/products/product"
+        );
+
+        setBasket(
+            (
+                resCart.data as (Omit<BasketItemType, "product"> & {
+                    product: number;
+                })[]
+            ).map((cart) => {
+                return {
+                    ...cart,
+                    product: (resProducts.data as ProductType[]).find(
+                        (p) => p.id === cart.product
+                    ),
+                };
+            })
+        );
     };
     useEffect(() => {
         fetchData();

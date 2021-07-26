@@ -15,17 +15,23 @@ import { ProductType } from "../../types/models";
 import { FC } from "react";
 import axios from "axios";
 import { useContext } from "react";
-import { BasketContext } from "../../hoc/Basket/Basket";
+import { BasketContext } from "../../hoc/Basket/BasketContextProvider";
 
 export const ProductDetails: FC<ProductType> = (props) => {
     const { fetchData } = useContext(BasketContext);
 
     const handleAddToBasket = () => {
+        const quantity = +(prompt("Enter quantity") || "");
+
+        if (!quantity) {
+            return alert("Invalid quantity");
+        }
+
         axios
             .post("http://localhost:8000/cart/cart_item", {
-                product: 1,
-                id: 2,
-                quantity: 1,
+                product: props.id,
+                user: 1,
+                quantity: quantity,
             })
             .then(fetchData)
             .catch((e) => alert(e.toString()));

@@ -12,8 +12,16 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js/pure";
 import { CheckoutForm } from "./components/CheckoutForm";
 import { Products } from "./components/Products/Products";
-import { Basket } from "./hoc/Basket/Basket";
+import { BasketContextProvider } from "./hoc/Basket/BasketContextProvider";
 import { AppHeaderBar } from "./components/AppHeaderBar";
+import { Basket } from "./components/Basket/Basket";
+
+// axios.defaults.auth = {
+//     username: "admin",
+//     password: "admin123",
+// };
+
+// axios.defaults.withCredentials = true;
 
 const gradient = keyframes`0% {
     background-position: 0% 50%;
@@ -45,13 +53,13 @@ function App() {
         `,
     };
 
-    const [posts, setPosts] = useState<BlogPostType[]>([]);
+    // const [posts, setPosts] = useState<BlogPostType[]>([]);
     const [products, setProducts] = useState<ProductType[]>([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/products/post").then((response) => {
-            setPosts(response.data as BlogPostType[]);
-        });
+        // axios.get("http://localhost:8000/products/post").then((response) => {
+        //     setPosts(response.data as BlogPostType[]);
+        // });
         axios.get("http://localhost:8000/products/product").then((response) => {
             setProducts(response.data as ProductType[]);
         });
@@ -62,16 +70,19 @@ function App() {
     return (
         <Elements stripe={stripePromise}>
             <BrowserRouter>
-                <Basket>
+                <BasketContextProvider>
                     <div css={styles.root}>
+                        <AppHeaderBar />
                         <Switch>
                             <Route path="/" exact>
                                 <HeaderAnimation />
                                 <LogoDesktop />
                             </Route>
                             <Route path="/products">
-                                <AppHeaderBar />
                                 <Products products={products} />
+                            </Route>
+                            <Route path="/basket">
+                                <Basket />
                             </Route>
                         </Switch>
                         {/* <CheckoutForm /> */}
@@ -136,7 +147,7 @@ function App() {
                             maiores? Beatae, quod dolor?
                         </div>
                     </div>
-                </Basket>
+                </BasketContextProvider>
             </BrowserRouter>
         </Elements>
     );

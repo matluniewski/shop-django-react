@@ -3,6 +3,7 @@ from rest_framework import viewsets, permissions
 from . import models, serializers
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = models.Product.objects.all()
-    serializer_class = serializers.ProductSerializer
     permission_classes = [permissions.AllowAny,]
+    queryset = models.Product.products.all()
+    serializer_class = serializers.ProductSerializer
+    filterset_fields = ['category', ]

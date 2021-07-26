@@ -15,7 +15,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useContext } from "react";
-import { BasketContext } from "../hoc/Basket/Basket";
+import { BasketContext } from "../hoc/Basket/BasketContextProvider";
+import { Link } from "react-router-dom";
 
 export const AppHeaderBar = () => {
     const { basket } = useContext(BasketContext);
@@ -129,24 +130,34 @@ export const AppHeaderBar = () => {
                 `}
             >
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
-                        Kwiatki
-                    </Typography>
-
+                    <Link
+                        to="/products"
+                        css={css`
+                            color: inherit;
+                            text-decoration: none;
+                        `}
+                    >
+                        <Typography variant="h6" noWrap>
+                            Kwiatki
+                        </Typography>
+                    </Link>
                     <div />
                     <div>
-                        <IconButton
-                            aria-label="show 4 new mails"
-                            color="inherit"
+                        <Link
+                            to="/basket"
+                            css={css`
+                                color: inherit;
+                            `}
                         >
-                            <Badge
-                                badgeContent={Object.keys(basket).length}
-                                color="secondary"
-                            >
-                                <ShoppingCartIcon />
-                            </Badge>
-                        </IconButton>
-
+                            <IconButton aria-label="" color="inherit">
+                                <Badge
+                                    badgeContent={Object.keys(basket).length}
+                                    color="secondary"
+                                >
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
+                        </Link>
                         <IconButton
                             edge="end"
                             aria-label="account of current user"

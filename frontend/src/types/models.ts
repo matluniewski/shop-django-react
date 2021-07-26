@@ -10,10 +10,13 @@ export interface BlogPostType {
 }
 
 export interface ProductType {
+    id: number;
     name: string;
     slug: string;
     price: number;
     category: string;
     description: string;
     thumbnail: string;
+    in_stock: boolean;
+    is_active: boolean;
 }
