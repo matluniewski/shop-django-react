@@ -2,66 +2,53 @@ import React, { useState } from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, keyframes } from "@emotion/react";
-import { Paper } from "@material-ui/core";
+import { Button, Paper, Typography } from "@material-ui/core";
 import { ProductType } from "../../types/models";
 
 export const ProductIcon = (props: ProductType) => {
-    const [display, setDisplay] = useState<"none" | "block">("none");
-    const handleMouseEnter = (event: React.MouseEvent) => {
-        setDisplay("block");
-    };
-    const handleMouseLeave = (event: React.MouseEvent) => {
-        setDisplay("none");
-    };
     return (
         <Paper
             css={css`
                 position: relative;
-                height: 400px;
-                background: url(${props.thumbnail});
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: 100%;
-                overflow: hidden;
-                transition: all 0.5s ease;
+                border-radius: 5px;
+                border: 1px solid white;
+                padding: 20px;
 
-                &:hover {
-                    background-size: 110%;
+                &:hover h4 {
+                    color: #3a8bcd;
                 }
             `}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
         >
-            <div
+            <img
+                src={props.thumbnail}
+                alt={props.name}
                 css={css`
-                    position: absolute;
-                    bottom: 0;
                     width: 100%;
-                    padding: 10px;
-                    background: rgba(0, 0, 0, 0.2);
                 `}
-            >
-                <div
-                    css={css`
-                        display: ${display};
-                        padding-bottom: 10px;
-                    `}
-                >
-                    {props.description}
-                </div>
-                {props.name}
-            </div>
-            <div
+            />
+            <Typography
+                variant="h4"
                 css={css`
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    color: red;
-                    padding: 10px;
+                    font-size: 17px;
+                    font-weight: 700;
+                    color: #1e1e1e;
+                    margin-top: 15px;
+                    transition: all 0.5s;
                 `}
             >
-                {props.price}zl
-            </div>
+                {props.name}
+            </Typography>
+            <Typography
+                variant="h6"
+                css={css`
+                    color: #3a8bcd;
+                    font-size: 15px;
+                    font-weight: 700;
+                    margin-bottom: 0px;
+                `}
+            >
+                {props.price}zł
+            </Typography>
         </Paper>
     );
 };

@@ -16,27 +16,27 @@ export const Products = (props: ProductsPropsType) => {
     return (
         <Container
             maxWidth="lg"
-            css={css`
-                position: relative;
-                padding-top: 10px;
-                z-index: 10;
-            `}
+            // css={css`
+            //     position: relative;
+            //     padding-top: 10px;
+            //     z-index: 10;
+            // `}
         >
-            <Switch>
-                <Route path="/products" exact>
-                    <ProductsList products={props.products} />
-                </Route>
-                {props.products.map((product) => {
-                    return (
-                        <Route
-                            path={`/products/${product.slug}`}
-                            key={product.name}
-                        >
-                            <ProductDetails {...product} />
-                        </Route>
-                    );
-                })}
-            </Switch>
+            {/* <Switch> */}
+            <Route path="/products" exact>
+                <ProductsList products={props.products} />
+            </Route>
+            {props.products.map((product) => {
+                return (
+                    <Route
+                        path={`/products/${product.slug}`}
+                        key={product.name}
+                    >
+                        <ProductDetails {...product} />
+                    </Route>
+                );
+            })}
+            {/* </Switch> */}
         </Container>
     );
 };
