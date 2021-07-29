@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, keyframes } from "@emotion/react";
-import { Button, Paper, Typography } from "@material-ui/core";
+import { css, jsx } from "@emotion/react";
+import { Paper, Typography } from "@material-ui/core";
 import { ProductType } from "../../types/models";
 
 export const ProductIcon = (props: ProductType) => {
@@ -11,21 +11,38 @@ export const ProductIcon = (props: ProductType) => {
             css={css`
                 position: relative;
                 border-radius: 5px;
-                border: 1px solid white;
+                border: 1px solid #d6d6d6;
                 padding: 20px;
 
                 &:hover h4 {
                     color: #3a8bcd;
                 }
+                &:hover img {
+                    filter: brightness(110%);
+                    transform: scale(1.1);
+                }
             `}
         >
-            <img
-                src={props.thumbnail}
-                alt={props.name}
+            <div
                 css={css`
-                    width: 100%;
+                    overflow: hidden;
+
+                    border: 1px solid #d6d6d6;
                 `}
-            />
+            >
+                <img
+                    src={props.thumbnail}
+                    alt={props.name}
+                    css={css`
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        transition: transform 1s, filter 1s ease-in-out;
+                        transform-origin: center center;
+                        filter: brightness(100%);
+                    `}
+                />
+            </div>
             <Typography
                 variant="h4"
                 css={css`

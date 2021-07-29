@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, keyframes } from "@emotion/react";
-import { Button, Card, Container, Grid, Typography } from "@material-ui/core";
+import { css, jsx } from "@emotion/react";
+import { Button, Card, Grid, Typography } from "@material-ui/core";
 import { ProductType } from "../../types/models";
 import { ProductIcon } from "./ProductIcon";
-import { ProductDetails } from "./ProductDetails";
 
 interface ProductsPropsType {
     products: ProductType[];
@@ -24,18 +23,31 @@ export const ProductsList = (props: ProductsPropsType) => {
         e.preventDefault();
         setFilteredProducts(filter);
     };
+    console.log(filteredProducts);
+    useEffect(() => {
+        setFilteredProducts(all);
+    }, [props.products, all]);
+
     return (
         <>
             <Card
                 css={css`
-                    margin-top: 100px;
+                    margin-top: 40px;
                     margin-bottom: 40px;
                     padding: 15px;
                     display: flex;
                     justify-content: space-between;
                 `}
             >
-                <Typography variant="h4">Produkty</Typography>
+                <Typography
+                    variant="h4"
+                    css={css`
+                        margin: auto;
+                        margin-left: 0;
+                    `}
+                >
+                    Produkty
+                </Typography>
 
                 <div
                     css={css`

@@ -1,32 +1,28 @@
-import React from "react";
+import React, { useState, useEffect, FC } from "react";
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, keyframes } from "@emotion/react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { css, jsx } from "@emotion/react";
+import { Switch, Route } from "react-router-dom";
 import { ProductType } from "../../types/models";
 import { ProductsList } from "./ProductsList";
 import { ProductDetails } from "./ProductDetails";
-import { Container } from "@material-ui/core";
+import axios from "axios";
 
-interface ProductsPropsType {
-    products: ProductType[];
-}
+export const Products: FC = (props) => {
+    const [products, setProducts] = useState<ProductType[]>([]);
 
-export const Products = (props: ProductsPropsType) => {
+    useEffect(() => {
+        axios.get("http://localhost:8000/products/product").then((response) => {
+            setProducts(response.data as ProductType[]);
+        });
+    }, []);
     return (
-        <Container
-            maxWidth="lg"
-            // css={css`
-            //     position: relative;
-            //     padding-top: 10px;
-            //     z-index: 10;
-            // `}
-        >
-            {/* <Switch> */}
+        <Switch>
             <Route path="/products" exact>
-                <ProductsList products={props.products} />
+                <ProductsList products={products} />
             </Route>
-            {props.products.map((product) => {
+
+            {products.map((product) => {
                 return (
                     <Route
                         path={`/products/${product.slug}`}
@@ -36,7 +32,6 @@ export const Products = (props: ProductsPropsType) => {
                     </Route>
                 );
             })}
-            {/* </Switch> */}
-        </Container>
+        </Switch>
     );
 };

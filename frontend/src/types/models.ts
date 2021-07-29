@@ -15,8 +15,10 @@ export interface ProductType {
     slug: string;
     price: number;
     category: string;
+    quantity: number;
     description: string;
     thumbnail: string;
+    images: string[];
     in_stock: boolean;
     is_active: boolean;
 }
