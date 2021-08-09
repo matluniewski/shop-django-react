@@ -9,3 +9,8 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CartItem
         exclude = ['user']
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = models.Cart
+        exclude = ['user']
