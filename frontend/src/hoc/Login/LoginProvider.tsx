@@ -23,7 +23,15 @@ interface LoginContextProps {
 export const LoginContext = createContext(null as unknown as LoginContextProps);
 
 export const LoginProvider: FC = (props) => {
-    const [token, setToken] = useState(localStorage.getItem("token") || "");
+    const [token, setToken] = useState(localStorage.token || "");
+
+    // 0 || 9 -> 9
+    // null || 8 -> 8
+    // 4 || 3 -> 4
+    // 0 ?? 7 -> 0
+    // null ?? 4 -> 4
+    // undefined ?? 3 -> 3
+
     const [basket, setBasket] = useState<BasketItemType[]>([]);
 
     const fetchData = async () => {
@@ -40,7 +48,7 @@ export const LoginProvider: FC = (props) => {
                     ...cart,
                     product: (resProducts.data as ProductType[]).find(
                         (p) => p.id === cart.product
-                    ),
+                    )!,
                 };
             })
         );

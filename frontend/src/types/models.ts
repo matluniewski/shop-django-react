@@ -24,7 +24,7 @@ export interface ProductType {
 }
 
 export interface BasketItemType {
-    product: ProductType | undefined;
+    product: ProductType;
     id: number;
     quantity: number;
     ordered: boolean;

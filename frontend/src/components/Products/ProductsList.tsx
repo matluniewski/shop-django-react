@@ -28,17 +28,19 @@ export const ProductsList = (props: ProductsPropsType) => {
         setFilteredProducts(all);
     }, [props.products, all]);
 
+    const styles = {
+        card: css`
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        `,
+    };
+
     return (
         <>
-            <Card
-                css={css`
-                    margin-top: 40px;
-                    margin-bottom: 40px;
-                    padding: 15px;
-                    display: flex;
-                    justify-content: space-between;
-                `}
-            >
+            <Card css={styles.card}>
                 <Typography
                     variant="h4"
                     css={css`
@@ -72,14 +74,7 @@ export const ProductsList = (props: ProductsPropsType) => {
                 {filteredProducts.map((product) => {
                     return (
                         <Grid item xs={12} sm={6} md={3} key={product.name}>
-                            <Link
-                                to={`/products/${product.slug}`}
-                                css={css`
-                                    text-decoration: none;
-                                `}
-                            >
-                                <ProductIcon {...product} />
-                            </Link>
+                            <ProductIcon {...product} />
                         </Grid>
                     );
                 })}

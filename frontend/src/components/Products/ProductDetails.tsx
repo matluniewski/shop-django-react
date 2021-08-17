@@ -19,7 +19,7 @@ import { Slider } from "./Slider";
 import { sendRequest } from "../../hoc/Login/LoginProvider";
 
 export const ProductDetails: FC<ProductType> = (props: ProductType) => {
-    const { fetchData } = useContext(LoginContext);
+    const { basket, fetchData } = useContext(LoginContext);
     const [quantity, setQuantity] = useState(1);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -34,18 +34,41 @@ export const ProductDetails: FC<ProductType> = (props: ProductType) => {
         setQuantity(event.target.value as number);
     };
     const handleAddToBasket = async () => {
-        console.log(sendRequest.defaults.headers.common);
+        console.log(basket);
 
-        try {
+        const foundBasketItem = basket.find(
+            (item) => item.product.id === props.id
+        );
+
+        if (foundBasketItem) {
+            const { id: orderId, quantity: oldQuantity } = foundBasketItem;
+
+            await sendRequest.patch(`/cart/cart_item/${orderId}`, {
+                product: props.id,
+                quantity: oldQuantity + quantity,
+            });
+
+            await fetchData();
+
+            setOpenSnackbar(true);
+        } else {
             await sendRequest.post("/cart/cart_item", {
                 product: props.id,
                 quantity: quantity,
             });
             await fetchData();
             setOpenSnackbar(true);
-        } catch (e) {
-            alert(e.toString());
         }
+        // try {
+        //     await sendRequest.post("/cart/cart_item", {
+        //         product: props.id,
+        //         quantity: quantity,
+        //     });
+        //     await fetchData();
+        //     setOpenSnackbar(true);
+        // } catch (e) {
+        //     alert(e.toString());
+        // }
     };
 
     const handleClose = (
