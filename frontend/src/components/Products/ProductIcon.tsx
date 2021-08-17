@@ -26,7 +26,6 @@ export const ProductIcon = (props: ProductType) => {
             <div
                 css={css`
                     overflow: hidden;
-
                     border: 1px solid #d6d6d6;
                 `}
             >

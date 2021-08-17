@@ -3,21 +3,20 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, keyframes } from "@emotion/react";
+import { Container } from "@material-ui/core";
 
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js/pure";
 import { STRIPE_API_KEY } from "./importantData";
 import { HeaderAnimation } from "./components/HeaderAnimation";
 import { LogoDesktop } from "./components/LogoDesktop";
-import { BlogPostType, ProductType } from "./types/models";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js/pure";
 import { CheckoutForm } from "./components/CheckoutForm";
 import { Products } from "./components/Products/Products";
-import { BasketContextProvider } from "./hoc/Basket/BasketContextProvider";
 import { AppHeaderBar } from "./components/AppHeaderBar";
 import { Basket } from "./components/Basket/Basket";
-import { Login } from "./components/Account/Login";
 import { LoginProvider } from "./hoc/Login/LoginProvider";
-import { Container } from "@material-ui/core";
+import { LoginForm } from "./components/Account/LoginForm";
+import { BlogPostType, ProductType } from "./types/models";
 
 // axios.defaults.auth = {
 //     username: "admin",
@@ -54,19 +53,16 @@ function App() {
         `,
     };
 
-    // const [posts, setPosts] = useState<BlogPostType[]>([]);
-
     return (
         // <Elements stripe={stripePromise}>
         <BrowserRouter>
-            <BasketContextProvider>
+            <LoginProvider>
                 <div css={styles.root}>
                     <AppHeaderBar />
                     <Container maxWidth="md">
                         <Switch>
                             <Route path="/login">
-                                <Login />
-                                <LoginProvider />
+                                <LoginForm />
                             </Route>
                             <Route path="/" exact>
                                 <HeaderAnimation />
@@ -82,7 +78,7 @@ function App() {
                         {/* <CheckoutForm /> */}
                     </Container>
                 </div>
-            </BasketContextProvider>
+            </LoginProvider>
         </BrowserRouter>
         //  </Elements>
     );

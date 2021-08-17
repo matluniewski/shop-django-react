@@ -22,3 +22,10 @@ export interface ProductType {
     in_stock: boolean;
     is_active: boolean;
 }
+
+export interface BasketItemType {
+    product: ProductType | undefined;
+    id: number;
+    quantity: number;
+    ordered: boolean;
+}

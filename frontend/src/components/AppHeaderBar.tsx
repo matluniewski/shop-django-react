@@ -15,11 +15,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useContext } from "react";
-import { BasketContext } from "../hoc/Basket/BasketContextProvider";
+import { LoginContext } from "../hoc/Login/LoginProvider";
 import { Link } from "react-router-dom";
 
 export const AppHeaderBar = () => {
-    const { basket } = useContext(BasketContext);
+    const { basket } = useContext(LoginContext);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
@@ -138,10 +138,10 @@ export const AppHeaderBar = () => {
                         `}
                     >
                         <Typography variant="h6" noWrap>
-                            Kwiatki
+                            Sklep
                         </Typography>
                     </Link>
-                    <div />
+
                     <div>
                         <Link
                             to="/basket"
@@ -158,27 +158,23 @@ export const AppHeaderBar = () => {
                                 </Badge>
                             </IconButton>
                         </Link>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
+                        <Link
+                            to="/login"
+                            css={css`
+                                color: inherit;
+                            `}
                         >
-                            <AccountCircle />
-                        </IconButton>
-                    </div>
-                    <div>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        </Link>
                     </div>
                 </Toolbar>
             </AppBar>
