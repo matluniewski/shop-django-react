@@ -1,14 +1,15 @@
-import { Card } from "@material-ui/core";
 import React, { useState, useContext } from "react";
-import Snackbar from "@material-ui/core/Snackbar";
-import { LoginContext } from "../../hoc/Login/LoginProvider";
-import { sendRequest } from "../../hoc/Login/LoginProvider";
+import { LoginContext, sendRequest } from "../../hoc/Login/LoginProvider";
 import { BasketItemType } from "../../types/models";
+import { useSnackbar } from "notistack";
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx } from "@emotion/react";
+import { Card, Typography, Button, Grid } from "@material-ui/core";
 
 export const Basket = () => {
     const { basket, fetchData } = useContext(LoginContext);
-    console.log(basket);
-    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const handleDeleteItem = async (item: BasketItemType) => {
         try {
@@ -16,50 +17,83 @@ export const Basket = () => {
                 data: item,
             });
             await fetchData();
-            setOpenSnackbar(true);
+            enqueueSnackbar(`${item.product.name} usunieto z koszyka`, {
+                variant: "success",
+            });
         } catch (e) {
-            alert(e.toString());
+            enqueueSnackbar(e.toString(), { variant: "error" });
         }
     };
 
-    const handleClose = (
-        event: React.SyntheticEvent | React.MouseEvent,
-        reason?: string
-    ) => {
-        if (reason === "clickaway") {
-            return;
-        }
-
-        setOpenSnackbar(false);
+    const styles = {
+        card: css`
+            margin-top: 40px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        `,
+        item: css`
+            margin: 5px;
+            padding: 15px;
+            background-color: white;
+        `,
+        name: css`
+            font-size: 17px;
+            font-weight: 700;
+            color: #1e1e1e;
+        `,
+        price: css`
+            color: #3a8bcd;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: end;
+        `,
+        buttonsContainer: css`
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        `,
     };
 
     return (
         <>
-            <Card>
-                Basket
-                {basket.map((item: BasketItemType) => {
+            <Card css={styles.card}>
+                <Typography variant="h4">Koszyk</Typography>
+            </Card>
+            <Card css={styles.card}>
+                {basket.map((item: BasketItemType, idx) => {
                     return (
-                        <div>
-                            <div>{item.product?.name}</div>
-                            <div>quantity: {item.quantity}</div>
+                        <Grid
+                            key={idx}
+                            container
+                            css={styles.item}
+                            alignItems="center"
+                        >
+                            <Grid item css={styles.name} sm={6} xs={12}>
+                                {item.product?.name}
+                            </Grid>
 
-                            <button onClick={() => handleDeleteItem(item)}>
-                                del
-                            </button>
-                        </div>
+                            <Grid
+                                item
+                                sm={2}
+                                xs={6}
+                                css={styles.buttonsContainer}
+                            >
+                                <div>quantity: {item.quantity}</div>
+                                <button onClick={() => handleDeleteItem(item)}>
+                                    del
+                                </button>
+                            </Grid>
+                            <Grid item sm={4} xs={6} css={styles.price}>
+                                {item.product.price}zl
+                            </Grid>
+                        </Grid>
                     );
                 })}
+                <div css={styles.item}>
+                    <Button variant="outlined">Platnosc</Button>
+                </div>
             </Card>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                }}
-                open={openSnackbar}
-                autoHideDuration={3000}
-                onClose={handleClose}
-                message="Usunieto z koszyka"
-            />{" "}
         </>
     );
 };

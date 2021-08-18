@@ -15,13 +15,7 @@ export const Slider: FC<SliderPropType> = (props) => {
             {props.images.map((img) => {
                 return (
                     <div>
-                        <img
-                            src={img}
-                            alt=""
-                            // css={css`
-                            //     max-width: 800px;
-                            // `}
-                        />
+                        <img src={img} alt="" />
                     </div>
                 );
             })}

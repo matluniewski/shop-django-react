@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import { ProductType, BasketItemType } from "../../types/models";
+import { useCookies } from "react-cookie";
 
 export const sendRequest = axios.create({
     baseURL: "http://localhost:8000",
@@ -23,7 +24,8 @@ interface LoginContextProps {
 export const LoginContext = createContext(null as unknown as LoginContextProps);
 
 export const LoginProvider: FC = (props) => {
-    const [token, setToken] = useState(localStorage.token || "");
+    const [cookies] = useCookies(["token"]);
+    const [token, setToken] = useState(cookies.token || "");
 
     // 0 || 9 -> 9
     // null || 8 -> 8

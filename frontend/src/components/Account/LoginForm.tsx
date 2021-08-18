@@ -1,11 +1,13 @@
-import React, { FormEventHandler, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { LoginContext, sendRequest } from "../../hoc/Login/LoginProvider";
+import { useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
+import { useCookies } from "react-cookie";
+
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
-import axios from "axios";
-import { useForm } from "react-hook-form";
-import { Button, Paper, TextField } from "@material-ui/core";
-import { LoginContext, sendRequest } from "../../hoc/Login/LoginProvider";
+import { Button, Card, TextField } from "@material-ui/core";
 
 type FormValues = {
     username: string;
@@ -20,7 +22,8 @@ export const LoginForm = () => {
         watch,
         formState: { errors },
     } = useForm<FormValues>();
-
+    const { enqueueSnackbar } = useSnackbar();
+    const [, setCookie] = useCookies(["token"]);
     const { setToken } = useContext(LoginContext);
 
     const handleSubmit = handleHookFormSubmit(async (data) => {
@@ -29,41 +32,52 @@ export const LoginForm = () => {
                 data: { token },
             } = await sendRequest.post("accounts/obtain-auth-token", data);
 
-            console.log(token);
-            localStorage.setItem("token", token);
+            setCookie("token", token);
             setToken(token);
+            enqueueSnackbar("Zalogowano", { variant: "success" });
         } else {
-            const registerData = {
-                email: data.username,
-                password: data.password,
-            };
-            const res = await sendRequest.post(
-                "accounts/register",
-                registerData
-            );
-            console.log(res);
+            try {
+                const registerData = {
+                    email: data.username,
+                    password: data.password,
+                };
+                const {
+                    data: { user },
+                } = await sendRequest.post("accounts/register", registerData);
+                enqueueSnackbar(`${user.email} zarejestrowano`, {
+                    variant: "success",
+                });
+                console.log(user);
+            } catch (e) {
+                console.log(e);
+
+                enqueueSnackbar(e.toString(), { variant: "error" });
+            }
         }
     });
 
     const switchAuthModeHandler = () => {
         setIsLogin((prevState) => !prevState);
     };
+
+    const styles = {
+        form: css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        `,
+        card: css`
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 15px;
+            text-align: center;
+        `,
+    };
     return (
-        <Paper
-            css={css`
-                text-align: center;
-            `}
-        >
+        <Card css={styles.card}>
             <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-            <form
-                onSubmit={handleSubmit}
-                css={css`
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 10px;
-                `}
-            >
+            <form onSubmit={handleSubmit} css={styles.form}>
                 <TextField
                     {...register("username")}
                     required
@@ -87,6 +101,6 @@ export const LoginForm = () => {
                         : "Login with existing account"}
                 </Button>
             </form>
-        </Paper>
+        </Card>
     );
 };

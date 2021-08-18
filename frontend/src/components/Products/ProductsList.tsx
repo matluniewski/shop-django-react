@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { css, jsx } from "@emotion/react";
 import { Button, Card, Grid, Typography } from "@material-ui/core";
 import { ProductType } from "../../types/models";
-import { ProductIcon } from "./ProductIcon";
+import { ProductItem } from "./ProductItem";
 
 interface ProductsPropsType {
     products: ProductType[];
@@ -73,8 +73,17 @@ export const ProductsList = (props: ProductsPropsType) => {
             <Grid container spacing={2}>
                 {filteredProducts.map((product) => {
                     return (
-                        <Grid item xs={12} sm={6} md={3} key={product.name}>
-                            <ProductIcon {...product} />
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            md={3}
+                            key={product.name}
+                            css={css`
+                                display: flex;
+                            `}
+                        >
+                            <ProductItem {...product} />
                         </Grid>
                     );
                 })}
